@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>location</title>
+</head>
+<body>
+    <h1>User location!</h1>
+
+   <p>latitude:<span id="latitude"></span><br /></p> 
+   <p> longitude:<span id="longitude"></span></p>
+
+
+    <script>
+
+        if('geolocation' in navigator) {
+
+         console.log("geo location");
+
+         navigator.geolocation.getCurrentPosition(position=>{
+            const lat=position.coords.latitude;
+            const lon=position.coords.longitude;
+            document.getElementById("latitude").textContent= lat;
+            document.getElementById("longitude").textContent= lon;
+
+            const data ={lat,lon};
+            
+            const options={
+                method:'POST',
+                mode:'cors',
+                headers:{
+                    'Access-Control-Allow-Origin':'*',
+                    'Content-Type':'application/json'
+                },
+                body:JSON.stringify(data)
+            };
+            
+            fetch('/api',options);
+
+         });
+        } else {
+        console.log("nos");  
+        }
+
+    </script>
+</body>
+</html>
